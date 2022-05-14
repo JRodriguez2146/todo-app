@@ -1,33 +1,18 @@
-import { useState } from "react"
-import ListItem from "./ListItem";
+import styles from '../style.module.css'
 
-//todo component
-export default function Todo () { 
-    //state for todos
-    const  [todo, setTodo] = useState("");
-    //state for todoList
-    const [todoList, setTodoList] = useState([]);
+//functional component for todos to be rendered in todo list
+const Todo = ({todoItem, todoList, setTodoList})=> {
 
-    //function to handle input change
-    const handleChange = (event)=> {
-        setTodo(event.target.value)
-    }
-    //function to handle todo list submissions from user
-    const handleSubmit = (event)=> {
-        event.preventDefault();
-        let tempList = todoList;
-        tempList.push(todo);
-        setTodoList(tempList);
-        setTodo("");
-        console.log(todoList);
-    }
-    return (<div>
-                <form onSubmit={handleSubmit}>
-                    <input value={todo} onChange={handleChange} type="text" />
-                    <button type="submit">Add</button>
-                </form>
-                {todoList.map((item)=>(
-                    <ListItem key={item} name={item}/>
-                    ))}
-            </div>);
+    //method to remove todo from list
+    const deleteTodo = ()=> {
+        setTodoList(todoList.filter((item) => item.id !==todoItem.id));
+
+    };
+    return(<div>
+            <div className={styles.todoItem}>
+                <h3 className={styles.todoName}>{todoItem.name}</h3>
+                <button onClick={deleteTodo} className={styles.deleteBtn}>Done</button>
+             </div>
+           </div>)
 }
+export default Todo;
